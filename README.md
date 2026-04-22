@@ -5,7 +5,7 @@ Monorepo project with a React client and a NestJS server for a simple CRM workfl
 ## Project Structure
 
 ```text
-it-proger-nest-js/
+<project-root>/
   client/   # React + TypeScript frontend
   server/   # NestJS + TypeORM backend
 ```
@@ -30,8 +30,8 @@ it-proger-nest-js/
 ### 1) Clone and install dependencies
 
 ```bash
-git clone https://github.com/<your-username>/it-proger-nest-js.git
-cd it-proger-nest-js
+git clone https://github.com/<your-username>/<your-repo-name>.git
+cd <your-repo-name>
 cd server && npm install
 cd ../client && npm install
 ```
