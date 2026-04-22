@@ -1,0 +1,2 @@
+CREATE ROLE app_user WITH LOGIN PASSWORD 'app_pass_123';
+CREATE DATABASE app_db OWNER app_user;
