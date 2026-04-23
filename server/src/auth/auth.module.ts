@@ -14,7 +14,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     TypeOrmModule.forFeature([User, Session]),
     PassportModule,
     JwtModule.register({
-      secret: 'access_secret_dev',
+      secret: process.env.JWT_ACCESS_SECRET ?? 'access_secret_dev',
       signOptions: { expiresIn: '15m' },
     }),
   ],

@@ -16,6 +16,9 @@ import { LogoutDto } from './dto/logout.dto';
 import { RefreshDto } from './dto/refresh.dto';
 import { RegisterDto } from './dto/register.dto';
 
+const ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_SECRET ?? 'access_secret_dev';
+const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET ?? 'refresh_secret_dev';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -74,7 +77,7 @@ export class AuthService {
 
     try {
       payload = await this.jwtService.verifyAsync(dto.refreshToken, {
-        secret: 'refresh_secret_dev',
+        secret: REFRESH_TOKEN_SECRET,
       });
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
@@ -101,7 +104,7 @@ export class AuthService {
 
     try {
       payload = await this.jwtService.verifyAsync(dto.refreshToken, {
-        secret: 'refresh_secret_dev',
+        secret: REFRESH_TOKEN_SECRET,
       });
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
@@ -151,12 +154,12 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync(
       { sub: user.id, email: user.email },
-      { secret: 'access_secret_dev', expiresIn: '15m' },
+      { secret: ACCESS_TOKEN_SECRET, expiresIn: '15m' },
     );
 
     const refreshToken = await this.jwtService.signAsync(
       { sub: user.id, jti },
-      { secret: 'refresh_secret_dev', expiresIn: '7d' },
+      { secret: REFRESH_TOKEN_SECRET, expiresIn: '7d' },
     );
 
     const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
