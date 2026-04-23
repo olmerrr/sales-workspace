@@ -1,12 +1,14 @@
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'won' | 'lost';
+export type UserRole = 'admin' | 'user';
 
 export interface User {
   id: number;
-  email: string;
+  email: string | null;
   name: string;
   bio: string;
+  role?: UserRole;
 }
 
 export interface Lead {
@@ -17,6 +19,8 @@ export interface Lead {
   value: number;
   source: string;
   createdAt?: string;
+  ownerId?: number;
+  owner?: User;
 }
 
 export interface AuthSession {
@@ -38,6 +42,7 @@ export interface RegisterPayload extends LoginPayload {
 export interface CreateUserPayload {
   name: string;
   bio: string;
+  role?: UserRole;
 }
 
 export interface CreateLeadPayload {

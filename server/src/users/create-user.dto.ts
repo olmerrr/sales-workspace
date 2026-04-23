@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { UserRole } from './user.entity';
 export class CreateUserDto {
   @ApiProperty({ example: 'Dominic' })
   @IsString({
@@ -18,4 +19,10 @@ export class CreateUserDto {
     message: 'BIO is required',
   })
   bio!: string;
+
+  @ApiPropertyOptional({ enum: UserRole, example: UserRole.USER })
+  @IsOptional()
+  @IsString()
+  @IsIn([UserRole.ADMIN, UserRole.USER])
+  role?: UserRole;
 }

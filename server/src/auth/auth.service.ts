@@ -15,6 +15,7 @@ import { LoginDto } from './dto/login.dto';
 import { LogoutDto } from './dto/logout.dto';
 import { RefreshDto } from './dto/refresh.dto';
 import { RegisterDto } from './dto/register.dto';
+import { UserRole } from '../users/user.entity';
 
 const ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_SECRET ?? 'access_secret_dev';
 const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET ?? 'refresh_secret_dev';
@@ -45,6 +46,7 @@ export class AuthService {
       passwordHash,
       name: dto.name,
       bio: dto.bio,
+      role: UserRole.USER,
     });
 
     const savedUser = await this.usersRepository.save(user);
@@ -60,10 +62,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const isPasswordValid = await bcrypt.compare(
-      dto.password,
-      user.passwordHash,
-    );
+    if (!user.passwordHash) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const isPasswordValid = await bcrypt.compare(dto.password, user.passwordHash);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
@@ -153,7 +156,7 @@ export class AuthService {
     const jti = randomUUID();
 
     const accessToken = await this.jwtService.signAsync(
-      { sub: user.id, email: user.email },
+      { sub: user.id, email: user.email, role: user.role },
       { secret: ACCESS_TOKEN_SECRET, expiresIn: '15m' },
     );
 
@@ -183,6 +186,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         bio: user.bio,
+        role: user.role,
       },
       accessToken,
       refreshToken,

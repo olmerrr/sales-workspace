@@ -14,10 +14,17 @@ React frontend for the Sales Workspace CRM app.
 
 - Public pages: login and project info
 - JWT-based auth flow (login, register, refresh)
+- User role awareness in UI (`admin` / `user`)
 - Dashboard with team and lead metrics
 - Team management page
 - Leads pipeline page
 - Light/Dark theme toggle
+
+## Data Usage from API
+
+- Users include role information (`role`)
+- Leads include ownership fields (`ownerId`, `owner`)
+- Team and dashboard pages display role and lead owner metadata
 
 ## Requirements
 
@@ -58,6 +65,12 @@ Build output: `client/build`.
 - Deploy `client` to Vercel or Netlify
 - Set `REACT_APP_API_URL` to your deployed API URL
 - Ensure backend CORS includes your client domain
+
+Example:
+
+```env
+REACT_APP_API_URL=https://sales-workspace-production.up.railway.app
+```
 
 ## Related Projects
 

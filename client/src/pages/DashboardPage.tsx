@@ -155,7 +155,9 @@ export default function DashboardPage() {
                   <p className="text-xs text-slate-400">#{user.id}</p>
                 </div>
                 <p className="text-sm text-slate-300">{user.bio || 'No bio yet'}</p>
-                <p className="mt-1 text-xs text-slate-400">{user.email || 'No email'}</p>
+                <p className="mt-1 text-xs text-slate-400">
+                  {(user.role || 'user').toUpperCase()} · {user.email || 'No email'}
+                </p>
               </li>
             ))}
             {users.length === 0 && <li className="text-sm text-slate-300">No users yet.</li>}
@@ -174,6 +176,9 @@ export default function DashboardPage() {
                 <p className="text-sm text-slate-300">{lead.company}</p>
                 <p className="mt-1 text-xs text-slate-400">
                   {lead.status} · {lead.source} · {formatCurrency(Number(lead.value || 0))}
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
+                  Owner: {lead.owner?.name || `#${lead.ownerId ?? 'unknown'}`}
                 </p>
               </li>
             ))}

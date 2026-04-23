@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './create-user.dto';
-import { User } from './user.entity';
+import { User, UserRole } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -13,7 +13,14 @@ export class UsersService {
   ) {}
 
   getAllUsers() {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      relations: {
+        leads: true,
+      },
+      order: {
+        id: 'DESC',
+      },
+    });
   }
 
   async getUsersById(id: number) {
@@ -26,7 +33,8 @@ export class UsersService {
   createUser(body: CreateUserDto) {
     const name = body.name;
     const bio = body.bio;
-    const user = this.usersRepository.create({ name, bio });
+    const role = body.role ?? UserRole.USER;
+    const user = this.usersRepository.create({ name, bio, role });
 
     return this.usersRepository.save(user);
   }

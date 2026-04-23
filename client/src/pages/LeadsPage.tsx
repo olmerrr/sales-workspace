@@ -187,6 +187,9 @@ export default function LeadsPage() {
                 <p className="text-xs text-slate-400">
                   {formatCurrency(Number(lead.value || 0))} · {lead.source} · {formatDate(lead.createdAt)}
                 </p>
+                <p className="text-xs text-slate-400">
+                  Owner: {lead.owner?.name || `#${lead.ownerId ?? 'unknown'}`}
+                </p>
               </div>
               <StatusBadge status={lead.status} />
             </li>

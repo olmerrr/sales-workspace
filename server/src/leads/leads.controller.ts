@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateLeadDto } from './create-lead.dto';
 import { LeadsService } from './leads.service';
@@ -14,7 +15,7 @@ export class LeadsController {
   }
 
   @Post()
-  createLead(@Body() dto: CreateLeadDto) {
-    return this.leadsService.createLead(dto);
+  createLead(@Body() dto: CreateLeadDto, @Req() req: Request & { user: { userId: number } }) {
+    return this.leadsService.createLead(dto, req.user.userId);
   }
 }

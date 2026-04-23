@@ -13,14 +13,17 @@ export class LeadsService {
 
   getAllLeads() {
     return this.leadsRepository.find({
+      relations: {
+        owner: true,
+      },
       order: {
         createdAt: 'DESC',
       },
     });
   }
 
-  createLead(dto: CreateLeadDto) {
-    const lead = this.leadsRepository.create(dto);
+  createLead(dto: CreateLeadDto, ownerId: number) {
+    const lead = this.leadsRepository.create({ ...dto, ownerId });
     return this.leadsRepository.save(lead);
   }
 }

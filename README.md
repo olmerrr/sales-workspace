@@ -19,11 +19,19 @@ Monorepo project with a React client and a NestJS server for a simple CRM workfl
 ## Features
 
 - Authentication: register, login, refresh token
+- User roles: `admin` and `user`
 - Dashboard with team and leads metrics
 - Team management
 - Leads pipeline
+- Lead ownership (each lead is linked to a user)
 - Swagger API docs
 - Light/Dark theme toggle
+
+## Data Model
+
+- `User 1:N Session` - one user can have multiple refresh sessions
+- `User 1:N Lead` - one user can own multiple leads
+- `Lead N:1 User` - each lead has one owner (`ownerId`)
 
 ## Local Setup
 
@@ -87,13 +95,22 @@ Use one GitHub repository and set root directories per platform:
 
 ### Server
 
-For production, use env vars for:
+Recommended variables:
 
-- DB connection (`DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`)
-- JWT secrets (`JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`)
-- CORS client URL (`CLIENT_URL`)
+- `DATABASE_URL` (preferred, e.g. Neon connection string)
+- `DB_SSL` (`true` for Neon)
+- `PORT`
+- `CLIENT_URL`
+- `JWT_ACCESS_SECRET`
+- `JWT_REFRESH_SECRET`
+
+Alternative DB variables (if `DATABASE_URL` is not used):
+
+- `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
 
 ## Notes
 
-- Current backend code still contains some hardcoded defaults for local development.
-- Before production deployment, move all sensitive values to environment variables.
+- One repository is used for both apps:
+  - Vercel root directory: `client`
+  - Railway root directory: `server`
+- Keep production secrets in platform environment variables, not in git.

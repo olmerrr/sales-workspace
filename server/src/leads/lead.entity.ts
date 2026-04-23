@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { User } from '../users/user.entity';
 
 @Entity('leads')
 export class Lead {
@@ -19,6 +21,13 @@ export class Lead {
 
   @Column()
   source!: string;
+
+  @Column()
+  ownerId!: number;
+
+  @ManyToOne(() => User, (user) => user.leads, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'ownerId' })
+  owner!: User;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
