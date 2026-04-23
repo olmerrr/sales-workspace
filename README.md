@@ -38,8 +38,8 @@ Monorepo project with a React client and a NestJS server for a simple CRM workfl
 ### 1) Clone and install dependencies
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
+git clone https://github.com/olmerrr/sales-workspace.git
+cd sales-workspace
 cd server && npm install
 cd ../client && npm install
 ```

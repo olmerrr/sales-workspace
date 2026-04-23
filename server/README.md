@@ -34,6 +34,7 @@ Role model:
 
 - `User.role` supports `admin` and `user`
 - New registered users get role `user` by default
+- No default seeded test user is created automatically
 
 ## Requirements
 
@@ -110,6 +111,20 @@ npm run test:e2e
 - `POST /users`
 - `GET /leads` (protected)
 - `POST /leads` (protected)
+
+## How to Test Users and Roles
+
+1. Register a user with `POST /auth/register` (Swagger or client UI).
+2. Login with `POST /auth/login` and use returned access token for protected routes.
+3. Create another user via `POST /users` with role in request body:
+   - `{ "name": "Alice", "bio": "Admin profile", "role": "admin" }`
+   - or `{ "name": "Bob", "bio": "Regular profile", "role": "user" }`
+4. Verify users list via `GET /users`:
+   - each user includes `role`
+   - each user includes related `leads`
+5. Create a lead with `POST /leads` using authenticated token.
+6. Verify lead ownership via `GET /leads`:
+   - each lead includes `ownerId` and relation `owner`.
 
 ## Deployment Notes
 
