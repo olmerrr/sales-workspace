@@ -6,13 +6,17 @@ import { AppService } from './app.service';
 
 import { AuthModule } from './auth/auth.module';
 import { LeadsModule } from './leads/leads.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { RabbitModule } from './rabbit/rabbit.module';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './users/logger.middleware';
 
 @Module({
   imports: [
+    RabbitModule,
     AuthModule,
     LeadsModule,
+    NotificationsModule,
     UsersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',

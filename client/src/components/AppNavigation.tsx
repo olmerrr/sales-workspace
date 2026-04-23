@@ -10,6 +10,7 @@ const navItems: NavConfig[] = [
   { to: '/', label: 'Dashboard', end: true },
   { to: '/team', label: 'Team' },
   { to: '/leads', label: 'Leads' },
+  { to: '/notifications', label: 'Notifications' },
 ];
 
 export default function AppNavigation() {

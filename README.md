@@ -24,6 +24,8 @@ Monorepo project with a React client and a NestJS server for a simple CRM workfl
 - Team management
 - Leads pipeline
 - Lead ownership (each lead is linked to a user)
+- RabbitMQ lead events (`lead.created`)
+- Notifications center (server + client)
 - Swagger API docs
 - Light/Dark theme toggle
 
@@ -32,6 +34,7 @@ Monorepo project with a React client and a NestJS server for a simple CRM workfl
 - `User 1:N Session` - one user can have multiple refresh sessions
 - `User 1:N Lead` - one user can own multiple leads
 - `Lead N:1 User` - each lead has one owner (`ownerId`)
+- `User 1:N Notification` - one user can receive multiple notifications
 
 ## Local Setup
 
@@ -103,6 +106,8 @@ Recommended variables:
 - `CLIENT_URL`
 - `JWT_ACCESS_SECRET`
 - `JWT_REFRESH_SECRET`
+- `RABBITMQ_URL`
+- `RABBITMQ_QUEUE` (optional, default: `sales_workspace.leads`)
 
 Alternative DB variables (if `DATABASE_URL` is not used):
 
@@ -114,3 +119,4 @@ Alternative DB variables (if `DATABASE_URL` is not used):
   - Vercel root directory: `client`
   - Railway root directory: `server`
 - Keep production secrets in platform environment variables, not in git.
+- If `RABBITMQ_URL` is not set, the API still works, but queue-based notifications are disabled.

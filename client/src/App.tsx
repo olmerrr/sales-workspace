@@ -5,10 +5,12 @@ import { useAppDispatch, useAppSelector } from './app/hooks';
 import AppShell from './components/AppShell';
 import { logout } from './features/auth/authSlice';
 import { resetLeads } from './features/leads/leadsSlice';
+import { resetNotifications } from './features/notifications/notificationsSlice';
 import { resetUsers } from './features/users/usersSlice';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import LeadsPage from './pages/LeadsPage';
+import NotificationsPage from './pages/NotificationsPage';
 import ProjectInfoPage from './pages/ProjectInfoPage';
 import TeamPage from './pages/TeamPage';
 
@@ -36,6 +38,7 @@ function App() {
     dispatch(logout());
     dispatch(resetUsers());
     dispatch(resetLeads());
+    dispatch(resetNotifications());
   };
 
   const onToggleTheme = () => {
@@ -65,6 +68,7 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="team" element={<TeamPage />} />
           <Route path="leads" element={<LeadsPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route path="/auth" element={<Navigate to="/" replace />} />

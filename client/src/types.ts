@@ -23,6 +23,17 @@ export interface Lead {
   owner?: User;
 }
 
+export interface Notification {
+  id: string;
+  userId: number;
+  type: string;
+  title: string;
+  message: string;
+  payload: Record<string, unknown>;
+  readAt?: string | null;
+  createdAt: string;
+}
+
 export interface AuthSession {
   user: User;
   accessToken: string;

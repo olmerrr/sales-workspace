@@ -4,6 +4,7 @@ import type {
   CreateUserPayload,
   Lead,
   LoginPayload,
+  Notification,
   RegisterPayload,
   RequestError,
   User,
@@ -175,5 +176,21 @@ export function createLead(lead: CreateLeadPayload): Promise<Lead> {
   return requestWithAuth<Lead>('/leads', {
     method: 'POST',
     body: JSON.stringify(lead),
+  });
+}
+
+export function getNotifications(): Promise<Notification[]> {
+  return requestWithAuth<Notification[]>('/notifications');
+}
+
+export function markNotificationAsRead(notificationId: string): Promise<{ ok: boolean }> {
+  return requestWithAuth<{ ok: boolean }>(`/notifications/${notificationId}/read`, {
+    method: 'PATCH',
+  });
+}
+
+export function markAllNotificationsAsRead(): Promise<{ ok: boolean }> {
+  return requestWithAuth<{ ok: boolean }>('/notifications/read-all', {
+    method: 'PATCH',
   });
 }

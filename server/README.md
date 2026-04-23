@@ -18,6 +18,8 @@ NestJS backend API for the Sales Workspace CRM app.
 - Users module
 - Leads module
 - Lead ownership linked to authenticated user
+- RabbitMQ integration for async lead events
+- Notifications module with read/unread endpoints
 - Session storage for refresh-token rotation
 - Swagger docs at `/docs` (also available at `/`)
 
@@ -29,6 +31,8 @@ NestJS backend API for the Sales Workspace CRM app.
   - a user can own multiple leads
 - `Lead N:1 User`
   - every lead stores `ownerId` and relation `owner`
+- `User 1:N Notification`
+  - notifications are stored per recipient user
 
 Role model:
 
@@ -54,6 +58,8 @@ Other runtime variables:
 - `CLIENT_URL`
 - `JWT_ACCESS_SECRET`
 - `JWT_REFRESH_SECRET`
+- `RABBITMQ_URL`
+- `RABBITMQ_QUEUE` (optional, default: `sales_workspace.leads`)
 
 Optional DB variables (if `DATABASE_URL` is not used):
 
@@ -111,6 +117,9 @@ npm run test:e2e
 - `POST /users`
 - `GET /leads` (protected)
 - `POST /leads` (protected)
+- `GET /notifications` (protected)
+- `PATCH /notifications/:id/read` (protected)
+- `PATCH /notifications/read-all` (protected)
 
 ## How to Test Users and Roles
 
@@ -126,6 +135,18 @@ npm run test:e2e
 6. Verify lead ownership via `GET /leads`:
    - each lead includes `ownerId` and relation `owner`.
 
+## How to Test RabbitMQ Notifications
+
+1. Set `RABBITMQ_URL` in environment variables.
+2. Start server and confirm RabbitMQ connection log appears.
+3. Login and create a lead with `POST /leads`.
+4. Call `GET /notifications`:
+   - owner receives `lead.created` notification
+   - admin users receive the same event notification
+5. Use:
+   - `PATCH /notifications/:id/read`
+   - `PATCH /notifications/read-all`
+
 ## Deployment Notes
 
 Recommended setup:
@@ -139,6 +160,7 @@ Production checklist:
 - set strong `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET`
 - use `DATABASE_URL` from Neon
 - set `DB_SSL=true` for managed Postgres
+- set `RABBITMQ_URL` (CloudAMQP or local RabbitMQ)
 - replace `synchronize: true` with migrations for long-term safety
 
 ## Related Projects

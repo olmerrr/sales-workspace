@@ -18,6 +18,7 @@ React frontend for the Sales Workspace CRM app.
 - Dashboard with team and lead metrics
 - Team management page
 - Leads pipeline page
+- Notifications page with read/unread actions
 - Light/Dark theme toggle
 
 ## Data Usage from API
@@ -25,6 +26,7 @@ React frontend for the Sales Workspace CRM app.
 - Users include role information (`role`)
 - Leads include ownership fields (`ownerId`, `owner`)
 - Team and dashboard pages display role and lead owner metadata
+- Notifications come from server events triggered by lead creation
 
 ## Requirements
 
@@ -71,6 +73,13 @@ Example:
 ```env
 REACT_APP_API_URL=https://sales-workspace-production.up.railway.app
 ```
+
+## Notifications Flow
+
+1. User creates a lead.
+2. Server publishes `lead.created` event to RabbitMQ.
+3. Server consumer creates notifications for lead owner and admins.
+4. Client reads notifications from `/notifications`.
 
 ## Related Projects
 
